@@ -1,0 +1,26 @@
+Version 1.0
+--done--  1. Create a directory structure.
+  2. Create TODO app home page.
+  3. Create a server for TODO app.
+  4. Server will serve home page.
+  5. Deciding data structure to store todoData.
+
+Data Structure: JSON
+{
+  todoId: {
+    id: todoId,
+    todos: [
+      {
+        id: 1,
+        todo: do this,
+        status: done/undone
+      },
+      {
+        id: 2,
+        todo: do this,
+        status: done/undone
+      }
+    ],
+    status: done
+  }
+}
