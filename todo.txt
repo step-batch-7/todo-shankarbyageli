@@ -9,7 +9,7 @@ Data Structure: JSON
 {
   todoId: {
     id: todoId,
-    todos: [
+    todos: 
       {
         id: 1,
         todo: do this,
