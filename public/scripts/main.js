@@ -1,20 +1,20 @@
 const createDivElement = function (innerText, id, className) {
-  const spanElement = document.createElement('div');
-  spanElement.innerText = innerText;
-  spanElement.id = id;
-  spanElement.className = className;
-  return spanElement;
+  const div = document.createElement('div');
+  div.innerText = innerText;
+  div.id = id;
+  div.className = className;
+  return div;
 };
 
 const getTodoHTML = function (id, details) {
   const todo = document.createElement('li');
-  todo.id = id;
+  todo.id = `todo-${id}`;
   todo.className = 'todo';
   const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
   title.onclick = getTodoItems;
   todo.appendChild(title);
   const view = createDivElement('View', `view-${id}`, 'view');
-  view.onclick = addTodoItem;
+  view.onclick = getTodoItems;
   todo.appendChild(view);
   const remove = createDivElement('Delete', `delete-${id}`, 'delete');
   remove.onclick = deleteTodo;

@@ -4,6 +4,17 @@ const renderNewTodo = function () {
   document.querySelector('#todoList').prepend(todo);
 };
 
+const renderTodoItem = function (id, className) {
+
+};
+
+const renderTodoItems = function (todoId, responseText) {
+  const todoItems = JSON.parse(responseText);
+  todoItems.forEach((item) => {
+    renderTodoItems(item.id, 'todo');
+  });
+};
+
 const renderEmptyList = function () {
   const noTodo = `<div id='no-todo'>
     You Don't have any TODO !! <br>

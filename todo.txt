@@ -9,7 +9,7 @@ Version 1.0
 --done-- 7. Render the already existing todos.
 
   8. View the todo items of todo.
-  9. Delete the todo.
+--done--  9. Delete the todo.
   10. Add an item to the existing todo. 
 
 Data Structure: JSON

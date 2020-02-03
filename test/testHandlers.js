@@ -22,13 +22,33 @@ describe('GET /list', function () {
   });
 });
 
-describe('POST /staticPage', function () {
+describe('POST /newTodo', function () {
   it('responds with static html page', function (done) {
     request(app.serve.bind(app))
       .post('/newTodo')
       .send('new title')
       .set('Accept', 'text/css')
-      .expect(/new title/i)
+      .expect(/new title/)
+      .expect(STATUS_CODES.success, done);
+  });
+});
+
+describe('GET /todoItems', function () {
+  it('responds with items of the given todo', function (done) {
+    request(app.serve.bind(app))
+      .get('/todoItems?id=102')
+      .set('Accept', 'text/css')
+      .expect(STATUS_CODES.success, done);
+  });
+});
+
+describe('POST /deleteTodo', function () {
+  it('responds with static html page', function (done) {
+    request(app.serve.bind(app))
+      .post('/deleteTodo')
+      .send('102')
+      .set('Accept', 'text/css')
+      .expect('102')
       .expect(STATUS_CODES.success, done);
   });
 });
