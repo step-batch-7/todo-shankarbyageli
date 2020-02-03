@@ -11,10 +11,13 @@ const getTodoHTML = function (id, details) {
   todo.id = id;
   todo.className = 'todo';
   const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
+  title.onclick = getTodoItems;
   todo.appendChild(title);
-  const addItem = createDivElement('Add Item', `addItem-${id}`, 'addItem');
-  todo.appendChild(addItem);
+  const view = createDivElement('View', `view-${id}`, 'view');
+  view.onclick = addTodoItem;
+  todo.appendChild(view);
   const remove = createDivElement('Delete', `delete-${id}`, 'delete');
+  remove.onclick = deleteTodo;
   todo.appendChild(remove);
   return todo;
 };

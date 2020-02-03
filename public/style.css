@@ -121,7 +121,7 @@ body {
 }
 
 .todoTitleText {
-  flex: 74%;
+  flex: 76%;
   width: 0;
   margin: 0 5% 0 1%;
   text-overflow: ellipsis;
@@ -130,8 +130,8 @@ body {
   cursor: pointer;
 }
 
-.addItem {
-  flex: 6%;
+.view {
+  flex: 4%;
   cursor: pointer;
   margin: 0 2px;
 }
@@ -142,6 +142,6 @@ body {
   margin: 0 2px;
 }
 
-.addItem:hover, .delete:hover {
+.view:hover, .delete:hover {
   color: blueviolet;
 }
