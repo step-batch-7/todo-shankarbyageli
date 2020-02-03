@@ -5,6 +5,13 @@ Version 1.0
 --done--  4. Server will serve home page.
 --done--  5. Deciding data structure to store todoData.
 
+--done-- 6. Able to add new item.
+--done-- 7. Render the already existing todos.
+
+  8. View the todo items of todo.
+  9. Delete the todo.
+  10. Add an item to the existing todo. 
+
 Data Structure: JSON
 {
   todoId: {

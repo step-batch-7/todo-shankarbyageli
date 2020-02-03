@@ -6,22 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> TODO App </title>
 </head>
-<link rel="stylesheet" href="style.css">
 <link rel="icon" href="todoIcon.png" type="image/x-icon">
-<script src="script.js"> </script>
+<link rel="stylesheet" href="style.css">
+<script src="scripts/main.js"></script>
+<script src="scripts/requests.js"></script>
+<script src="scripts/render.js"></script>
 
 <body onload="main()">
-  <div class=header>
-    <div id='icon'>
-      <img src="todoIcon.png" alt="Icon" id='icon'>
+  <div id='app'>
+    <div class=header>
+      <div id='icon'>
+        <img src="todoIcon.png" alt="Icon" id='icon'>
+      </div>
+      <span id='title'> TODO App </span>
     </div>
-    <span id='title'> TODO App </span>
-  </div>
-  <div class='main'>
-    <div class='sidebar'>
-      <button class='addNew' onclick="showTodoForm()"> Add New </button>
-    </div>
-    <div class='content'>
+    <div class='main'>
       <div id='mainTitle'>
         <div id='text'>Your TODO List</div>
         <div id='date'> Date: 1-2-2020 </div>
@@ -31,13 +30,11 @@
 
         </ul>
       </div>
+      <form id="newTodo">
+        <input type="text" id='input' name='title' placeholder="Add new TODO here" required>
+        <button id='addButton' onclick="addNewTodo()"> Add </button>
+      </form>
     </div>
-  </div>
-
-  <div id="newItemForm">
-    <p id='formTitle'> Add New TODO <span id='close' onclick="hideTodoForm()"> X </span> </p>
-    <input type="text" id='input' name='title' placeholder="Enter title" required>
-    <button id='addButton' onclick="addNewTodo()"> Add </button>
   </div>
 
 </body>
