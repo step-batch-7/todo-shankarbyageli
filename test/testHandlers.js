@@ -34,20 +34,19 @@ describe('PUT /newTodo', function () {
 });
 
 describe('DELETE /deleteTodo', function () {
-  it('responds with static html page', function (done) {
+  it('deletes the todo', function (done) {
     request(app.serve.bind(app))
       .delete('/todo')
       .send('102')
       .set('Accept', 'text/css')
-      .expect('102')
       .expect(STATUS_CODES.success, done);
   });
 });
 
-describe('PUT /url', function () {
+describe('HEAD /url', function () {
   it('responds with 400 method not allowed', function (done) {
     request(app.serve.bind(app))
-      .put('/html/Ageratum.html')
+      .put('/url')
       .expect(STATUS_CODES.notAllowed, done);
   });
 });
