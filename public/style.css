@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Times new Roman';
+  font-family: 'Monospace';
   background-color: #eee;
 }
 
@@ -144,4 +144,31 @@ body {
 
 .view:hover, .delete:hover {
   color: blueviolet;
+}
+
+.item {
+  display: flex;
+  overflow: hidden;
+  background-color: rgb(179, 220, 233);
+  height: 7vh;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 5px;
+  margin: 0.2vw 0;
+}
+
+.status {
+  width: 2vh;
+  margin: 0 0.5vw 0 1vw;
+  height: 100%; 
+}
+
+.itemTitleText {
+  flex: 82%;
+  width: 0;
+  margin: 0 5% 0 1%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
 }

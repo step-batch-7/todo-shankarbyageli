@@ -12,22 +12,23 @@ Version 1.0
 --done--  9. Delete the todo.
   10. Add an item to the existing todo. 
 
-Data Structure: JSON
-{
-  todoId: {
+Data Structure: JSON ( todoList )
+[
+  {
+    todoId: 100
     title: title of todo,
-    todos: [
+    tasks: [
       {
-        id: 1,
-        todo: do this,
+        taskId: 1,
+        title: do this,
         status: done/undone
       },
       {
-        id: 2,
-        todo: do this,
+        taskId: 2,
+        title: do this,
         status: done/undone
       }
     ],
     status: done
   }
-}
+]

@@ -1,20 +1,15 @@
-const parseUrl = function (urlString) {
-  let [url, query] = urlString.split('?');
-  query = query.split('&');
-  const queryObject = query.reduce((parsedQuery, query) => {
-    const [key, value] = query.split('=');
-    parsedQuery[key] = value;
-    return parsedQuery;
-  }, {});
-  return [url, queryObject];
-};
-
 class App {
   constructor() {
     this.routes = [];
   }
   get(path, handler) {
     this.routes.push({ path, handler, method: 'GET' });
+  }
+  delete(path, handler) {
+    this.routes.push({ path, handler, method: 'DELETE' });
+  }
+  put(path, handler) {
+    this.routes.push({ path, handler, method: 'PUT' });
   }
   post(path, handler) {
     this.routes.push({ path, handler, method: 'POST' });
@@ -23,9 +18,6 @@ class App {
     this.routes.push({ handler: middleware });
   }
   serve(req, res) {
-    if (req.url.includes('?')) {
-      [req.url, req.query] = parseUrl(req.url);
-    }
     const matchingHandlers = this.routes.filter((route) => {
       return matchRoute(route, req);
     });

@@ -22,10 +22,10 @@ describe('GET /list', function () {
   });
 });
 
-describe('POST /newTodo', function () {
+describe('PUT /newTodo', function () {
   it('responds with static html page', function (done) {
     request(app.serve.bind(app))
-      .post('/newTodo')
+      .put('/newTodo')
       .send('new title')
       .set('Accept', 'text/css')
       .expect(/new title/)
@@ -33,19 +33,10 @@ describe('POST /newTodo', function () {
   });
 });
 
-describe('GET /todoItems', function () {
-  it('responds with items of the given todo', function (done) {
-    request(app.serve.bind(app))
-      .get('/todoItems?id=102')
-      .set('Accept', 'text/css')
-      .expect(STATUS_CODES.success, done);
-  });
-});
-
-describe('POST /deleteTodo', function () {
+describe('DELETE /deleteTodo', function () {
   it('responds with static html page', function (done) {
     request(app.serve.bind(app))
-      .post('/deleteTodo')
+      .delete('/todo')
       .send('102')
       .set('Accept', 'text/css')
       .expect('102')
