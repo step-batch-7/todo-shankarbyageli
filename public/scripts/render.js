@@ -21,16 +21,23 @@ const createDeleteDiv = function () {
   return remove;
 }
 
+const createTitleDiv = function (className, text) {
+  const title = document.createElement('div');
+  title.className = className;
+  title.innerText = text;
+  title.title = text;
+  return title;
+};
+
 const getItemHTML = function (todoId, item) {
   const newItem = document.createElement('li');
   newItem.id = `item-${todoId}-${item.id}`;
   newItem.className = 'item';
   const status = createCheckBox();
+  status.checked = item.status;
+  status.onclick = changeTaskStatus;
   newItem.appendChild(status);
-  const title = document.createElement('div');
-  title.className = 'itemTitleText';
-  title.innerText = item.title;
-  title.title = item.title;
+  const title = createTitleDiv('itemTitleText', item.title)
   newItem.appendChild(title);
   const remove = createDeleteDiv();
   newItem.appendChild(remove);

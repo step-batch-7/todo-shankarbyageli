@@ -38,6 +38,14 @@ class TodoList {
     this.todoList.splice(todoIndex, 1);
   }
 
+  changeStatus(todoId, taskId) {
+    const todo = this.getTodo(todoId);
+    const task = todo.tasks.find((task) => {
+      return task.id == taskId;
+    });
+    task.status = !task.status;
+  }
+
   getTodoItems(todoId) {
     const id = this.todoList.findIndex((todo) => {
       return todo.id == todoId;

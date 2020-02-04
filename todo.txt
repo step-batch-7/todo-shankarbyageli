@@ -8,9 +8,10 @@ Version 1.0
 --done-- 6. Able to add new item.
 --done-- 7. Render the already existing todos.
 
-  8. View the todo items of todo.
+--done--  8. View the todo items of todo.
 --done--  9. Delete the todo.
-  10. Add an item to the existing todo. 
+--done--  10. Add an item to the existing todo. 
+--done--  11. Change the status of task.
 
 Data Structure: JSON ( todoList )
 [

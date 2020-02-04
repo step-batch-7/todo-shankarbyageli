@@ -40,6 +40,12 @@ describe.only("TodoList", function () {
       const actual = todoList.nextTodoId;
       assert.strictEqual(actual, 5);
     });
+
+    it("should give the todo id as 100 if no todo exist", function () {
+      const todoList = new TodoList([]);
+      const actual = todoList.nextTodoId;
+      assert.strictEqual(actual, 100);
+    });
   });
 
   describe("nextTaskId", function () {
@@ -82,6 +88,15 @@ describe.only("TodoList", function () {
       const expected = { id: 2, title: 'new todo', status: false };
       assert.deepStrictEqual(actual, expected);
       const list = [{ id: 1, tasks: [{ id: 2, title: 'new todo', status: false }] }]
+      assert.deepStrictEqual(todoList.getTodoList(), list);
+    });
+  });
+
+  describe("changeStatus", function () {
+    it("description", function () {
+      const todoList = new TodoList([{ id: 1, tasks: [{ id: 2, title: 'new todo', status: false }] }]);
+      const actual = todoList.changeStatus(1, 2);
+      const list = [{ id: 1, tasks: [{ id: 2, title: 'new todo', status: true }] }]
       assert.deepStrictEqual(todoList.getTodoList(), list)
     });
   });

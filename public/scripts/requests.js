@@ -52,6 +52,17 @@ const addNewItem = function () {
   xhr.send(JSON.stringify(body));
 };
 
+const changeTaskStatus = function () {
+  const [, todoId, taskId] = event.target.parentElement.id.split('-');
+  const body = { todoId, taskId };
+  const xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    todoList.changeStatus(todoId, taskId);
+  };
+  xhr.open('PUT', '/taskStatus');
+  xhr.send(JSON.stringify(body));
+};
+
 const getAllTodos = function () {
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
