@@ -1,17 +1,17 @@
-const parseUrl = function (urlString) {
-  let [url, query] = urlString.split('?');
-  if (query) {
-    query = query.split('&');
-    const parsed = {};
-    query.reduce((parsed, query) => {
-      let [key, value] = query.split('=');
-      parsed[key] = value;
-      return parsed;
-    }, parsed);
-    return [url, parsed];
-  }
-  return [url, query];
-};
+// const parseUrl = function (urlString) {
+//   let [url, query] = urlString.split('?');
+//   if (query) {
+//     query = query.split('&');
+//     const parsed = {};
+//     query.reduce((parsed, query) => {
+//       let [key, value] = query.split('=');
+//       parsed[key] = value;
+//       return parsed;
+//     }, parsed);
+//     return [url, parsed];
+//   }
+//   return [url, query];
+// };
 
 class App {
   constructor() {
@@ -33,7 +33,6 @@ class App {
     this.routes.push({ handler: middleware });
   }
   serve(req, res) {
-    [req.url, req.query] = parseUrl(req.url);
     const matchingHandlers = this.routes.filter((route) => {
       return matchRoute(route, req);
     });
