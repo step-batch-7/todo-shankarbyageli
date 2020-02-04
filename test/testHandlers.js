@@ -33,11 +33,22 @@ describe('PUT /newTodo', function () {
   });
 });
 
+describe.skip('PUT /newITem', function () {
+  it('responds with static html page', function (done) {
+    request(app.serve.bind(app))
+      .put('/newItem?id=1')
+      .send('new title')
+      .set('Accept', 'text/css')
+      .expect(/new title/)
+      .expect(STATUS_CODES.success, done);
+  });
+});
+
 describe('DELETE /deleteTodo', function () {
   it('deletes the todo', function (done) {
     request(app.serve.bind(app))
       .delete('/todo')
-      .send('102')
+      .send('109')
       .set('Accept', 'text/css')
       .expect(STATUS_CODES.success, done);
   });

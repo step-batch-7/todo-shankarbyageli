@@ -11,16 +11,17 @@ const getTodoHTML = function (details) {
   todo.id = `todo-${details.id}`;
   todo.className = 'todo';
   const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
-  // title.onclick = getTodoItems;
+  title.onclick = getTodoItems;
   todo.appendChild(title);
   const view = createDivElement('View', `view-${details.id}`, 'view');
-  // view.onclick = getTodoItems;
+  view.onclick = getTodoItems;
   todo.appendChild(view);
   const remove = createDivElement('Delete', `delete-${details.id}`, 'delete');
   remove.onclick = deleteTodo;
   todo.appendChild(remove);
   return todo;
 };
+
 
 const main = function () {
   const a = new Date();

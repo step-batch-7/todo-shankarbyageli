@@ -19,6 +19,17 @@ body {
   border-bottom: 2px solid rgba(105, 97, 97, 0.3);
 }
 
+#goBack {
+  display: none;
+  color: blue;
+  margin: 0 5px 0 0;
+}
+
+#goBack:hover {
+  cursor: pointer;
+  color: red;
+}
+
 #title {
   font-size: 4vh;
   font-weight: bold;
@@ -73,7 +84,7 @@ body {
   padding-top: 26vh;
 }
 
-#todoList {
+.todoList {
   list-style-type: none;
   padding: 0 1vw;
 }
