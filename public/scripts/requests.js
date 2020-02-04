@@ -4,6 +4,7 @@ const deleteTodo = function () {
   const body = { id: id };
   xhr.onload = function () {
     document.querySelector(`#todo-${id}`).remove();
+    renderEmptyList();
     todoList.deleteTodo(id);
   };
   xhr.open('DELETE', '/todo');
@@ -16,18 +17,18 @@ const deleteTask = function () {
   const body = { todoId, taskId };
   xhr.onload = function () {
     document.querySelector(`#item-${todoId}-${taskId}`).remove();
+    renderEmptyList();
     todoList.deleteTask(todoId, taskId);
   };
   xhr.open('DELETE', '/task');
   xhr.send(JSON.stringify(body));
 };
 
-const isValidInput = function () {
-  event.preventDefault();
+const extractTitle = function () {
   const title = document.querySelector('#input').value;
   document.querySelector('#input').value = '';
   if (title.trim() === '') {
-    return;
+    return false;
   }
   return title;
 }
@@ -37,6 +38,7 @@ const addNewTodo = function () {
   if (!title) {
     return;
   }
+  event.preventDefault();
   const xhr = new XMLHttpRequest();
   const body = { title: title };
   xhr.onload = renderNewTodo;
@@ -54,6 +56,8 @@ const addNewItem = function () {
   if (!title) {
     return;
   }
+  event.preventDefault();
+  const todoId = getItemId(event.target);
   const xhr = new XMLHttpRequest();
   const body = { id: todoId, title: title };
   xhr.onload = function () {
