@@ -22,10 +22,21 @@ const deleteTask = function () {
   xhr.send(JSON.stringify(body));
 };
 
-const addNewTodo = function () {
+const isValidInput = function () {
   event.preventDefault();
   const title = document.querySelector('#input').value;
   document.querySelector('#input').value = '';
+  if (title.trim() === '') {
+    return;
+  }
+  return title;
+}
+
+const addNewTodo = function () {
+  const title = extractTitle();
+  if (!title) {
+    return;
+  }
   const xhr = new XMLHttpRequest();
   const body = { title: title };
   xhr.onload = renderNewTodo;
@@ -39,10 +50,10 @@ const getItemId = function (element) {
 };
 
 const addNewItem = function () {
-  event.preventDefault();
-  const todoId = getItemId(event.target);
-  const title = document.querySelector('#input').value;
-  document.querySelector('#input').value = '';
+  const title = extractTitle();
+  if (!title) {
+    return;
+  }
   const xhr = new XMLHttpRequest();
   const body = { id: todoId, title: title };
   xhr.onload = function () {

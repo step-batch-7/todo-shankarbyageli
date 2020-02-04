@@ -1,18 +1,3 @@
-// const parseUrl = function (urlString) {
-//   let [url, query] = urlString.split('?');
-//   if (query) {
-//     query = query.split('&');
-//     const parsed = {};
-//     query.reduce((parsed, query) => {
-//       let [key, value] = query.split('=');
-//       parsed[key] = value;
-//       return parsed;
-//     }, parsed);
-//     return [url, parsed];
-//   }
-//   return [url, query];
-// };
-
 class App {
   constructor() {
     this.routes = [];
