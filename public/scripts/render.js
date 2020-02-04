@@ -65,7 +65,7 @@ const renderNewTodo = function () {
   const details = JSON.parse(this.responseText);
   todoList.addTodo(details);
   const todo = getTodoHTML(details);
-  document.querySelector('.todoList').prepend(todo);
+  select('.todoList').prepend(todo);
 };
 
 const renderNewItem = function (responseText, todoId) {
@@ -73,34 +73,34 @@ const renderNewItem = function (responseText, todoId) {
   const details = JSON.parse(responseText);
   todoList.addTask(todoId, details);
   const item = getItemHTML(todoId, details);
-  document.querySelector('.todoList').appendChild(item);
+  select('.todoList').appendChild(item);
 };
 
 const removeAllChildren = function (className) {
-  const element = document.querySelector(`.${className}`);
+  const element = select(`.${className}`);
   while (element.children.length) {
     element.children[0].remove();
   }
 };
 
 const todoTemplate = function () {
-  document.querySelector('#input').placeholder = 'Add New TODO here';
-  document.querySelector('#text').innerText = 'Your TODO List';
-  document.querySelector('#addButton').onclick = addNewTodo;
-  document.querySelector('#goBack').style.display = 'none';
+  select('#input').placeholder = 'Add New TODO here';
+  select('#text').innerText = 'Your TODO List';
+  select('#addButton').onclick = addNewTodo;
+  select('#goBack').style.display = 'none';
   removeAllChildren('todoList');
-  document.querySelector('.todoList').id = '';
+  select('.todoList').id = '';
   renderTodos();
 };
 
 const taskTemplate = function (todoId) {
-  document.querySelector('#input').placeholder = 'Add New TASK here';
-  document.querySelector('#text').innerText = todoList.getTodo(todoId).title;
-  document.querySelector('#addButton').onclick = addNewItem;
-  document.querySelector('#goBack').style.display = 'inline';
-  document.querySelector('#goBack').onclick = todoTemplate;
+  select('#input').placeholder = 'Add New TASK here';
+  select('#text').innerText = todoList.getTodo(todoId).title;
+  select('#addButton').onclick = addNewItem;
+  select('#goBack').style.display = 'inline';
+  select('#goBack').onclick = todoTemplate;
   removeAllChildren('todoList');
-  document.querySelector('.todoList').id = `todoItems-${todoId}`;
+  select('.todoList').id = `todoItems-${todoId}`;
 };
 
 const renderTodoTasks = function () {
@@ -109,13 +109,13 @@ const renderTodoTasks = function () {
   const tasks = todoList.getTodoItems(id);
   for (const task of tasks) {
     const taskHTML = getItemHTML(id, task);
-    document.querySelector('.todoList').appendChild(taskHTML);
+    select('.todoList').appendChild(taskHTML);
   }
   renderEmptyList();
 };
 
 const renderEmptyList = function () {
-  const list = document.querySelector('.todoList');
+  const list = select('.todoList');
   if (!list.children.length) {
     const noTodo = document.createElement('div');
     noTodo.id = 'no-todo';
@@ -131,7 +131,7 @@ const renderEmptyList = function () {
 const renderTodos = function () {
   for (const item of todoList.todoList) {
     const todo = getTodoHTML(item);
-    document.querySelector('.todoList').prepend(todo);
+    select('.todoList').prepend(todo);
   }
   renderEmptyList();
 };

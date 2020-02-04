@@ -149,7 +149,7 @@ body {
 }
 
 .todo:hover {
-  background-color: ;
+  box-shadow: 2px 2px 2px gray;
 }
 
 .view {
@@ -177,6 +177,10 @@ body {
   justify-content: flex-start;
   border-radius: 5px;
   margin: 0.2vw 0;
+}
+
+.item:hover {
+  box-shadow: 2px 2px 2px gray;
 }
 
 .status {

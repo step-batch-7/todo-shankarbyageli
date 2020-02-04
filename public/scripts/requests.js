@@ -1,32 +1,37 @@
-const deleteTodo = function () {
+const xmlRequest = function (request, callback) {
   const xhr = new XMLHttpRequest();
+  xhr.open(request.method, request.url);
+  xhr.send(JSON.stringify(request.body));
+  xhr.onload = callback;
+};
+
+const createRequest = function (method, url, body) {
+  return { method, url, body };
+};
+
+const deleteTodo = function () {
   const id = event.target.parentElement.id.split('-').pop();
-  const body = { id: id };
-  xhr.onload = function () {
-    document.querySelector(`#todo-${id}`).remove();
+  const request = createRequest('DELETE', '/todo', { id });
+  xmlRequest(request, function () {
+    select(`#todo-${id}`).remove();
     renderEmptyList();
     todoList.deleteTodo(id);
-  };
-  xhr.open('DELETE', '/todo');
-  xhr.send(JSON.stringify(body));
+  });
 };
 
 const deleteTask = function () {
-  const xhr = new XMLHttpRequest();
   const [, todoId, taskId] = event.target.parentElement.id.split('-');
-  const body = { todoId, taskId };
-  xhr.onload = function () {
-    document.querySelector(`#item-${todoId}-${taskId}`).remove();
+  const request = createRequest('DELETE', '/task', { todoId, taskId });
+  xmlRequest(request, function () {
+    select(`#item-${todoId}-${taskId}`).remove();
     renderEmptyList();
     todoList.deleteTask(todoId, taskId);
-  };
-  xhr.open('DELETE', '/task');
-  xhr.send(JSON.stringify(body));
+  });
 };
 
 const extractTitle = function () {
-  const title = document.querySelector('#input').value;
-  document.querySelector('#input').value = '';
+  const title = select('#input').value;
+  select('#input').value = '';
   if (title.trim() === '') {
     return false;
   }
@@ -39,11 +44,8 @@ const addNewTodo = function () {
     return;
   }
   event.preventDefault();
-  const xhr = new XMLHttpRequest();
-  const body = { title: title };
-  xhr.onload = renderNewTodo;
-  xhr.open('PUT', '/newTodo');
-  xhr.send(JSON.stringify(body));
+  const request = createRequest('PUT', '/newTodo', { title })
+  xmlRequest(request, renderNewTodo);
 };
 
 const getItemId = function (element) {
@@ -58,33 +60,25 @@ const addNewItem = function () {
   }
   event.preventDefault();
   const todoId = getItemId(event.target);
-  const xhr = new XMLHttpRequest();
-  const body = { id: todoId, title: title };
-  xhr.onload = function () {
+  const request = createRequest('PUT', '/newItem', { id: todoId, title });
+  xmlRequest(request, function () {
     renderNewItem(this.responseText, todoId);
-  }
-  xhr.open('PUT', `/newItem`);
-  xhr.send(JSON.stringify(body));
+  });
 };
 
 const changeTaskStatus = function () {
   const [, todoId, taskId] = event.target.parentElement.id.split('-');
-  const body = { todoId, taskId };
-  const xhr = new XMLHttpRequest();
-  xhr.onload = function () {
+  const request = createRequest('PUT', '/taskStatus', { todoId, taskId });
+  xmlRequest(request, function () {
     todoList.changeStatus(todoId, taskId);
-  };
-  xhr.open('PUT', '/taskStatus');
-  xhr.send(JSON.stringify(body));
+  });
 };
 
 const getAllTodos = function () {
-  const xhr = new XMLHttpRequest();
-  xhr.onload = function () {
+  const request = createRequest('GET', '/list', {});
+  xmlRequest(request, function () {
     const serverList = JSON.parse(this.responseText);
     todoList.addList(serverList);
     renderTodos();
-  }
-  xhr.open('GET', '/list');
-  xhr.send();
+  });
 };

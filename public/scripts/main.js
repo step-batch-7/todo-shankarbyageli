@@ -1,4 +1,5 @@
 const todoList = new TodoList();
+const select = document.querySelector.bind(document);
 
 const main = function () {
   const a = new Date();
