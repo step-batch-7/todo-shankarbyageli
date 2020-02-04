@@ -18,7 +18,6 @@ const deleteTask = function () {
     document.querySelector(`#item-${todoId}-${taskId}`).remove();
     todoList.deleteTask(todoId, taskId);
   };
-  console.log(todoId, taskId);
   xhr.open('DELETE', '/task');
   xhr.send(JSON.stringify(body));
 };
@@ -26,6 +25,7 @@ const deleteTask = function () {
 const addNewTodo = function () {
   event.preventDefault();
   const title = document.querySelector('#input').value;
+  document.querySelector('#input').value = '';
   const xhr = new XMLHttpRequest();
   const body = { title: title };
   xhr.onload = renderNewTodo;
@@ -42,6 +42,7 @@ const addNewItem = function () {
   event.preventDefault();
   const todoId = getItemId(event.target);
   const title = document.querySelector('#input').value;
+  document.querySelector('#input').value = '';
   const xhr = new XMLHttpRequest();
   const body = { id: todoId, title: title };
   xhr.onload = function () {

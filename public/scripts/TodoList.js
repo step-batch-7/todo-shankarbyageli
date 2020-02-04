@@ -16,6 +16,13 @@ class TodoList {
     tasks.push(task);
   }
 
+  getTodo(id) {
+    const todoIndex = this.todoList.findIndex((todo) => {
+      return todo.id == id;
+    });
+    return this.todoList[todoIndex];
+  }
+
   deleteTask(todoId, taskId) {
     const tasks = this.getTodoItems(todoId);
     const itemIndex = tasks.findIndex((task) => {
