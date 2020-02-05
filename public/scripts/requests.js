@@ -48,7 +48,7 @@ const addNewTodo = function () {
     return;
   }
   event.preventDefault();
-  const request = createRequest('PUT', '/newTodo', { title })
+  const request = createRequest('POST', '/newTodo', { title })
   xmlRequest(request, renderNewTodo);
 };
 
@@ -64,7 +64,7 @@ const addNewItem = function () {
   }
   event.preventDefault();
   const todoId = getItemId(event.target);
-  const request = createRequest('PUT', '/newItem', { id: todoId, title });
+  const request = createRequest('POST', '/newItem', { id: todoId, title });
   xmlRequest(request, function () {
     renderNewItem(this.responseText, todoId);
   });
