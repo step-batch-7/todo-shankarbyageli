@@ -4,9 +4,9 @@ const xmlRequest = function (request, callback) {
   xhr.send(JSON.stringify(request.body));
   xhr.onload = callback;
   xhr.onerror = function () {
-    const html = '<h1 id="lost"> Something went wrong ! <br> Sorry for inconvenience </h1>'
+    const html = '<h1 id="lost"> Something went wrong ! <br> Sorry for inconvenience </h1>';
     document.body.innerHTML = html;
-  }
+  };
 };
 
 const createRequest = function (method, url, body) {
@@ -40,7 +40,7 @@ const extractTitle = function () {
     return false;
   }
   return title;
-}
+};
 
 const addNewTodo = function () {
   const title = extractTitle();
@@ -48,7 +48,7 @@ const addNewTodo = function () {
     return;
   }
   event.preventDefault();
-  const request = createRequest('POST', '/newTodo', { title })
+  const request = createRequest('POST', '/newTodo', { title });
   xmlRequest(request, renderNewTodo);
 };
 

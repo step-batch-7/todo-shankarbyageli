@@ -1,7 +1,7 @@
 const TodoList = require('../lib/TodoList');
 const assert = require('assert');
 
-describe.only('TodoList', function () {
+describe('TodoList', function () {
   describe('getTodoList', function () {
     it('should give the list of all todos', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2 }, { id: 3 }]);

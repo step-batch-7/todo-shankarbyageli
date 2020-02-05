@@ -1,13 +1,54 @@
+const fs = require('fs');
+const sinon = require('sinon');
+const { assert } = require('sinon');
 const request = require('supertest');
-const { STATUS_CODES } = require('../lib/utilities');
-const app = require('../lib/handlers');
+const app = require('../lib/handlers.js');
+const { STATUS_CODES } = require('../lib/utilities.js');
+
+const todoList = [
+  {
+    id: 100,
+    title: 'todo 1',
+    tasks: [
+      {
+        id: 1,
+        title: 'task 1',
+        status: false
+      },
+      {
+        id: 2,
+        title: 'task 2',
+        status: false
+      }
+    ],
+    status: false
+  },
+  {
+    id: 101,
+    title: 'todo 2',
+    tasks: [],
+    status: false
+  }
+];
+
+const readFake = sinon.fake.returns(JSON.stringify(todoList));
+const writeFake = sinon.fake();
+
+before(() => {
+  sinon.replace(fs, 'readFileSync', readFake);
+  sinon.replace(fs, 'writeFileSync', writeFake);
+});
+
+after(() => {
+  sinon.restore();
+});
 
 describe('GET /staticPage', function () {
   it('responds with static html page', function (done) {
     request(app.serve.bind(app))
       .get('/style.css')
       .set('Accept', 'text/css')
-      .expect(/body/)
+      .expect(/title/)
       .expect(STATUS_CODES.success, done);
   });
 });
@@ -22,34 +63,24 @@ describe('GET /list', function () {
   });
 });
 
-describe('PUT /newTodo', function () {
+describe('POST /newTodo', function () {
   it('responds with static html page', function (done) {
     request(app.serve.bind(app))
-      .put('/newTodo')
-      .send('new title')
+      .post('/newTodo')
+      .send({ title: "new title" })
       .set('Accept', 'text/css')
       .expect(/new title/)
       .expect(STATUS_CODES.success, done);
   });
 });
 
-describe.skip('PUT /newITem', function () {
+describe('POST /newItem', function () {
   it('responds with static html page', function (done) {
     request(app.serve.bind(app))
-      .put('/newItem?id=1')
-      .send('new title')
+      .post('/newItem')
+      .send({ id: 100, title: "new title" })
       .set('Accept', 'text/css')
       .expect(/new title/)
-      .expect(STATUS_CODES.success, done);
-  });
-});
-
-describe('DELETE /deleteTodo', function () {
-  it('deletes the todo', function (done) {
-    request(app.serve.bind(app))
-      .delete('/todo')
-      .send('109')
-      .set('Accept', 'text/css')
       .expect(STATUS_CODES.success, done);
   });
 });

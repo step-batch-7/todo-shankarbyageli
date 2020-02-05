@@ -4,7 +4,6 @@
     "es6": true,
     "node": true,
     "mocha": true,
-    "browser": true
   },
   "extends": "eslint:recommended",
   "globals": {
@@ -80,5 +79,17 @@
     "prefer-spread": "warn",
     "no-useless-call": "error",
     "no-param-reassign": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "public/scripts/*.js",
+        "test/*.js"
+      ],
+      "rules": {
+        "no-unused-vars": "off",
+        "no-undef": "off"
+      }
+    }
+  ]
 }
