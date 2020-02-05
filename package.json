@@ -8,8 +8,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "nyc mocha",
-    "start": "node server.js"
+    "test": "export DATABASE=/Users/step19/workspace/learning_js/assignments/todoApp/database/testData.json; nyc mocha",
+    "start": "export DATABASE=/Users/step19/workspace/learning_js/assignments/todoApp/database/todoList.json; node server.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,6 @@
   "devDependencies": {
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
-    "sinon": "^8.1.1",
     "supertest": "^4.0.2"
   }
 }
