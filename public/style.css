@@ -17,14 +17,16 @@ body {
   display: flex;
   flex: 10%;
   justify-content: center;
-  padding: 1vh;
+  padding: 0.5vw;
   border-bottom: 2px solid rgba(105, 97, 97, 0.3);
 }
 
 #goBack {
   display: none;
+  font-size: 1.5vw;
+  margin: 0 1vw 0 0;
   color: blue;
-  margin: 0 5px 0 0;
+  align-self: center;
 }
 
 #goBack:hover {
@@ -47,9 +49,9 @@ body {
 
 #mainTitle {
   flex: 3%;
-  padding: 2vh;
+  padding: 1vw;
   background-color: rgb(250, 250, 255);
-  font-size: 3vh;
+  font-size: 3vw;
   display: flex;
   justify-content: space-between;
   margin-bottom: 0;
@@ -132,7 +134,7 @@ body {
   display: flex;
   overflow: hidden;
   background-color: rgb(179, 220, 233);
-  height: 7vh;
+  height: 3.5vw;
   align-items: center;
   justify-content: space-around;
   border-radius: 5px;
@@ -166,13 +168,14 @@ body {
 
 .view:hover, .delete:hover {
   color: blueviolet;
+  text-decoration: underline;
 }
 
 .item {
   display: flex;
   overflow: hidden;
   background-color: rgb(179, 220, 233);
-  height: 7vh;
+  height: 3.5vw;
   align-items: center;
   justify-content: flex-start;
   border-radius: 5px;
@@ -196,4 +199,9 @@ body {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+#lost {
+  margin: 18vw 0;
+  text-align: center;
 }

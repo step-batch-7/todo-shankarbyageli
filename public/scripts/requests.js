@@ -3,6 +3,10 @@ const xmlRequest = function (request, callback) {
   xhr.open(request.method, request.url);
   xhr.send(JSON.stringify(request.body));
   xhr.onload = callback;
+  xhr.onerror = function () {
+    const html = '<h1 id="lost"> Something went wrong ! <br> Sorry for inconvenience </h1>'
+    document.body.innerHTML = html;
+  }
 };
 
 const createRequest = function (method, url, body) {
