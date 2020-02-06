@@ -20,6 +20,13 @@ const editTodo = function (todoId, title) {
   });
 };
 
+const editTask = function (todoId, taskId, title) {
+  const request = createRequest('PUT', '/editTask', { todoId, taskId, title });
+  xmlRequest(request, function () {
+    todoList.editTask(todoId, taskId, title);
+  });
+};
+
 const deleteTodo = function () {
   const id = event.target.parentElement.id.split('-').pop();
   const request = createRequest('DELETE', '/todo', { id });

@@ -124,6 +124,15 @@ describe("PUT /editTodo", function () {
   });
 });
 
+describe("PUT /editTask", function () {
+  it("edits the title of the task given todoId and taskId", function (done) {
+    request(app.serve.bind(app))
+      .put('/editTask')
+      .send({ todoId: 100, taskId: 1, title: 'edited title' })
+      .expect(STATUS_CODES.success, done);
+  });
+});
+
 describe('GET /badRequest', function () {
   it('responds 404 not found', function (done) {
     request(app.serve.bind(app))

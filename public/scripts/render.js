@@ -15,7 +15,7 @@ const createCheckBox = function () {
 const createDeleteDiv = function () {
   const remove = document.createElement('div');
   remove.className = 'delete';
-  remove.innerText = 'Delete';
+  remove.innerText = '✗';
   remove.onclick = deleteTask;
   return remove;
 };
@@ -28,6 +28,20 @@ const createTitleDiv = function (className, text) {
   return title;
 };
 
+const doneTaskEditing = function () {
+  const text = event.target.previousSibling;
+  text.contentEditable = false;
+  event.target.innerText = '✎';
+  const [, todoId, taskId] = event.target.parentElement.id.split('-');
+  editTask(todoId, taskId, text.innerText);
+};
+
+const makeTaskEditable = function () {
+  event.target.previousSibling.contentEditable = true;
+  event.target.innerText = '✔';
+  event.target.onclick = doneTaskEditing;
+};
+
 const getItemHTML = function (todoId, item) {
   const newItem = document.createElement('li');
   newItem.id = `item-${todoId}-${item.id}`;
@@ -38,6 +52,9 @@ const getItemHTML = function (todoId, item) {
   newItem.appendChild(status);
   const title = createTitleDiv('itemTitleText', item.title);
   newItem.appendChild(title);
+  const edit = createDivElement('✎', 'edit');
+  edit.onclick = makeTaskEditable;
+  newItem.appendChild(edit);
   const remove = createDeleteDiv();
   newItem.appendChild(remove);
   return newItem;
@@ -49,7 +66,7 @@ const getTodoDetails = function (details) {
   return `Total Tasks: ${tasks.length}\nRemaining: ${remaining}`;
 };
 
-const doneEditing = function () {
+const doneTodoEditing = function () {
   const text = event.target.previousSibling;
   text.contentEditable = false;
   event.target.innerText = '✎';
@@ -59,7 +76,7 @@ const doneEditing = function () {
 const makeTodoEditable = function () {
   event.target.previousSibling.contentEditable = true;
   event.target.innerText = '✔';
-  event.target.onclick = doneEditing;
+  event.target.onclick = doneTodoEditing;
 };
 
 const getTodoHTML = function (details) {

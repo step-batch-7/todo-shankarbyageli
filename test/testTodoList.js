@@ -104,9 +104,16 @@ describe('TodoList', function () {
   describe("editTodo", function () {
     it("should edit the title of the given todo", function () {
       const todoList = new TodoList([{ id: 1, title: 'todo 1', tasks: [] }]);
-      const actual = todoList.editTodo(1, 'edited title');
-      const list = [{ id: 1, title: 'edited title', tasks: [] }];
+      todoList.editTodo(1, 'edited title');
       assert.strictEqual(todoList.getTodo(1).title, 'edited title');
+    });
+  });
+
+  describe("editTask", function () {
+    it("should edit the title of the task given todo", function () {
+      const todoList = new TodoList([{ id: 1, tasks: [{ id: 2, title: 'new todo', status: false }] }]);
+      todoList.editTask(1, 2, 'edited title');
+      assert.deepStrictEqual(todoList.getTasks(1), [{ id: 2, title: 'edited title', status: false }]);
     });
   });
 });

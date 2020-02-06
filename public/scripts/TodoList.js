@@ -51,6 +51,14 @@ class TodoList {
     todo.title = title;
   }
 
+  editTask(todoId, taskId, title) {
+    const tasks = this.getTodoItems(todoId);
+    const task = tasks.find((task) => {
+      return task.id === +taskId;
+    });
+    task.title = title;
+  }
+
   getTodoItems(todoId) {
     const id = this.todoList.findIndex((todo) => {
       return todo.id === +todoId;
