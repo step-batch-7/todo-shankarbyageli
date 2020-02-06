@@ -46,6 +46,11 @@ class TodoList {
     task.status = !task.status;
   }
 
+  editTodo(todoId, title) {
+    const todo = this.getTodo(todoId);
+    todo.title = title;
+  }
+
   getTodoItems(todoId) {
     const id = this.todoList.findIndex((todo) => {
       return todo.id === +todoId;

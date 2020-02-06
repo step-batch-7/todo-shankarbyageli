@@ -115,6 +115,15 @@ describe("DELETE /task", function () {
   });
 });
 
+describe("PUT /editTodo", function () {
+  it("edits the title of the given todoId", function (done) {
+    request(app.serve.bind(app))
+      .put('/editTodo')
+      .send({ todoId: 100, title: 'edited title' })
+      .expect(STATUS_CODES.success, done);
+  });
+});
+
 describe('GET /badRequest', function () {
   it('responds 404 not found', function (done) {
     request(app.serve.bind(app))

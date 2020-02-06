@@ -1,7 +1,6 @@
-const createDivElement = function (innerText, id, className) {
+const createDivElement = function (innerText, className) {
   const div = document.createElement('div');
   div.innerText = innerText;
-  div.id = id;
   div.className = className;
   return div;
 };
@@ -45,10 +44,22 @@ const getItemHTML = function (todoId, item) {
 };
 
 const getTodoDetails = function (details) {
-  const title = details.title;
   const tasks = todoList.getTodoItems(details.id);
   const remaining = tasks.filter((task) => !task.status).length;
-  return `Title: ${title}\nTotal Tasks: ${tasks.length}\nRemaining: ${remaining}`;
+  return `Total Tasks: ${tasks.length}\nRemaining: ${remaining}`;
+};
+
+const doneEditing = function () {
+  const text = event.target.previousSibling;
+  text.contentEditable = false;
+  event.target.innerText = '✎';
+  editTodo(event.target.parentElement.id.split('-').pop(), text.innerText);
+};
+
+const makeTodoEditable = function () {
+  event.target.previousSibling.contentEditable = true;
+  event.target.innerText = '✔';
+  event.target.onclick = doneEditing;
 };
 
 const getTodoHTML = function (details) {
@@ -58,10 +69,13 @@ const getTodoHTML = function (details) {
   const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
   title.title = getTodoDetails(details);
   todo.appendChild(title);
-  const view = createDivElement('View', `view-${details.id}`, 'view');
+  const edit = createDivElement('✎', 'edit');
+  edit.onclick = makeTodoEditable;
+  todo.appendChild(edit);
+  const view = createDivElement('View', 'view');
   view.onclick = renderTodoTasks;
   todo.appendChild(view);
-  const remove = createDivElement('Delete', `delete-${details.id}`, 'delete');
+  const remove = createDivElement('✗', 'delete');
   remove.onclick = deleteTodo;
   todo.appendChild(remove);
   return todo;
@@ -104,6 +118,7 @@ const todoTemplate = function () {
 const taskTemplate = function (todoId) {
   select('#input').placeholder = 'Add New TASK here';
   select('#text').innerText = todoList.getTodo(todoId).title;
+  select('#text').title = select('#text').innerText;
   select('#addButton').onclick = addNewItem;
   select('#goBack').style.display = 'inline';
   select('#goBack').onclick = todoTemplate;
@@ -112,7 +127,7 @@ const taskTemplate = function (todoId) {
 };
 
 const renderTodoTasks = function () {
-  const id = event.target.id.split('-').pop();
+  const id = event.target.parentElement.id.split('-').pop();
   taskTemplate(id);
   const tasks = todoList.getTodoItems(id);
   for (const task of tasks) {

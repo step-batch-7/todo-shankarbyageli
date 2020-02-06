@@ -49,7 +49,7 @@ describe('TodoList', function () {
   });
 
   describe('nextTaskId', function () {
-    it('description', function () {
+    it('should give the next task id of given todoId', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2, tasks: [{ id: 1 }, { id: 2 }] }]);
       const actual = todoList.nextTaskId(2);
       assert.strictEqual(actual, 3);
@@ -57,7 +57,7 @@ describe('TodoList', function () {
   });
 
   describe('deleteTodo', function () {
-    it('description', function () {
+    it('should delete the todo of the given id', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2 }]);
       todoList.deleteTodo(1);
       assert.deepStrictEqual(todoList.getTodoList(), [{ id: 2 }]);
@@ -65,7 +65,7 @@ describe('TodoList', function () {
   });
 
   describe('deleteTask', function () {
-    it('description', function () {
+    it('should delete the give task id of the given todoId', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2, tasks: [{ id: 1 }, { id: 2 }] }]);
       todoList.deleteTask(2, 1);
       assert.deepStrictEqual(todoList.getTodoList(), [{ id: 1 }, { id: 2, tasks: [{ id: 2 }] }]);
@@ -73,7 +73,7 @@ describe('TodoList', function () {
   });
 
   describe('addTodo', function () {
-    it('description', function () {
+    it('should add the new todo given the title of the todo', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2 }]);
       const actual = todoList.addTodo('new todo');
       const expected = { id: 3, title: 'new todo', status: false, tasks: [] };
@@ -82,7 +82,7 @@ describe('TodoList', function () {
   });
 
   describe('addItem', function () {
-    it('description', function () {
+    it('should add the given task to the given todoId', function () {
       const todoList = new TodoList([{ id: 1, tasks: [] }]);
       const actual = todoList.addItem(1, 'new todo');
       const expected = { id: 2, title: 'new todo', status: false };
@@ -93,11 +93,20 @@ describe('TodoList', function () {
   });
 
   describe('changeStatus', function () {
-    it('description', function () {
+    it('should change the status of the given task', function () {
       const todoList = new TodoList([{ id: 1, tasks: [{ id: 2, title: 'new todo', status: false }] }]);
       const actual = todoList.changeStatus(1, 2);
       const list = [{ id: 1, tasks: [{ id: 2, title: 'new todo', status: true }] }];
       assert.deepStrictEqual(todoList.getTodoList(), list);
+    });
+  });
+
+  describe("editTodo", function () {
+    it("should edit the title of the given todo", function () {
+      const todoList = new TodoList([{ id: 1, title: 'todo 1', tasks: [] }]);
+      const actual = todoList.editTodo(1, 'edited title');
+      const list = [{ id: 1, title: 'edited title', tasks: [] }];
+      assert.strictEqual(todoList.getTodo(1).title, 'edited title');
     });
   });
 });

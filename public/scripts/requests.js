@@ -13,6 +13,13 @@ const createRequest = function (method, url, body) {
   return { method, url, body };
 };
 
+const editTodo = function (todoId, title) {
+  const request = createRequest('PUT', '/editTodo', { todoId, title });
+  xmlRequest(request, function () {
+    todoList.editTodo(todoId, title);
+  });
+};
+
 const deleteTodo = function () {
   const id = event.target.parentElement.id.split('-').pop();
   const request = createRequest('DELETE', '/todo', { id });
