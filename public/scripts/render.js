@@ -44,12 +44,19 @@ const getItemHTML = function (todoId, item) {
   return newItem;
 };
 
+const getTodoDetails = function (details) {
+  const title = details.title;
+  const tasks = todoList.getTodoItems(details.id);
+  const remaining = tasks.filter((task) => !task.status).length;
+  return `Title: ${title}\nTotal Tasks: ${tasks.length}\nRemaining: ${remaining}`;
+};
+
 const getTodoHTML = function (details) {
   const todo = document.createElement('li');
   todo.id = `todo-${details.id}`;
   todo.className = 'todo';
   const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
-  title.title = details.title;
+  title.title = getTodoDetails(details);
   todo.appendChild(title);
   const view = createDivElement('View', `view-${details.id}`, 'view');
   view.onclick = renderTodoTasks;
@@ -74,6 +81,7 @@ const renderNewItem = function (responseText, todoId) {
   todoList.addTask(todoId, details);
   const item = getItemHTML(todoId, details);
   select('.todoList').appendChild(item);
+  select('#todo').scrollTop = select('#todo').scrollHeight;
 };
 
 const removeAllChildren = function (className) {
