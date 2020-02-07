@@ -122,9 +122,43 @@ const removeAllChildren = function (className) {
   }
 };
 
+const isSearchedElement = function (title, searchText) {
+  let keywords = searchText.split(' ');
+  keywords = keywords.filter(keyword => keyword);
+  return keywords.every(keyword => title.includes(keyword));
+};
+
+const filterTodo = function () {
+  const searchText = select('#searchBar').value;
+  const elements = todoList.list;
+  elements.forEach((element) => {
+    if (isSearchedElement(element.title, searchText)) {
+      select(`#todo-${element.id}`).style.display = '';
+    } else {
+      select(`#todo-${element.id}`).style.display = 'none';
+    }
+  });
+};
+
+const filterTasks = function () {
+  const searchText = select('#searchBar').value;
+  const todoId = select('.todoList').id.split('-').pop();
+  const elements = todoList.getTodoItems(todoId);
+  elements.forEach((element) => {
+    if (isSearchedElement(element.title, searchText)) {
+      select(`#item-${todoId}-${element.id}`).style.display = '';
+    } else {
+      select(`#item-${todoId}-${element.id}`).style.display = 'none';
+    }
+  });
+};
+
 const todoTemplate = function () {
   select('#input').placeholder = 'Add New TODO here';
   select('#text').innerText = 'Your TODO List';
+  select('#searchBar').placeholder = 'Search Todo...';
+  select('#searchBar').value = '';
+  select('#searchBar').oninput = filterTodo;
   select('#addButton').onclick = addNewTodo;
   select('#goBack').style.display = 'none';
   removeAllChildren('todoList');
@@ -135,6 +169,9 @@ const todoTemplate = function () {
 const taskTemplate = function (todoId) {
   select('#input').placeholder = 'Add New TASK here';
   select('#text').innerText = todoList.getTodo(todoId).title;
+  select('#searchBar').placeholder = 'Search Task...';
+  select('#searchBar').value = '';
+  select('#searchBar').oninput = filterTasks;
   select('#text').title = select('#text').innerText;
   select('#addButton').onclick = addNewItem;
   select('#goBack').style.display = 'inline';

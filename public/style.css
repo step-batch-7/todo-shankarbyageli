@@ -66,7 +66,7 @@ body {
 
 #text {
   margin: 0 2vw 0 0.6vw;
-  flex: 80%;
+  flex: 75%;
   font-size: 1.5vw;
   color: #555;
   align-self: center;
@@ -75,11 +75,17 @@ body {
   white-space: nowrap;
 }
 
-#date {
-  flex: 15%;
-  color: #555;
+#searchContainer {
+  flex: 14%;
   font-size: 1.5vw;
+  padding: 0 1vw 0 0;
   align-self: center;
+}
+
+#searchBar {
+  font-size: 1.5vw;
+  border: none;
+  outline: none;
 }
 
 #todo {

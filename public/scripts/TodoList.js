@@ -3,6 +3,10 @@ class TodoList {
     this.todoList = [];
   }
 
+  get list() {
+    return this.todoList.slice();
+  }
+
   addList(list) {
     this.todoList = list;
   }
