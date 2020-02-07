@@ -37,7 +37,9 @@ const doneTaskEditing = function () {
 };
 
 const makeTaskEditable = function () {
-  event.target.previousSibling.contentEditable = true;
+  const titleNode = event.target.previousSibling;
+  titleNode.contentEditable = true;
+  titleNode.focus();
   event.target.innerText = '✔';
   event.target.onclick = doneTaskEditing;
 };
@@ -74,7 +76,9 @@ const doneTodoEditing = function () {
 };
 
 const makeTodoEditable = function () {
-  event.target.previousSibling.contentEditable = true;
+  const titleNode = event.target.previousSibling;
+  titleNode.contentEditable = true;
+  titleNode.focus();
   event.target.innerText = '✔';
   event.target.onclick = doneTodoEditing;
 };
@@ -87,7 +91,7 @@ const getTodoHTML = function (details) {
   title.title = getTodoDetails(details);
   todo.appendChild(title);
   const edit = createDivElement('✎', 'edit');
-  edit.onclick = makeTodoEditable;
+  edit.onclick = () => makeTodoEditable(editTodo);
   todo.appendChild(edit);
   const view = createDivElement('View', 'view');
   view.onclick = renderTodoTasks;
@@ -156,6 +160,7 @@ const filterTasks = function () {
 const todoTemplate = function () {
   select('#input').placeholder = 'Add New TODO here';
   select('#text').innerText = 'Your TODO List';
+  select('#text').title = 'Your TODO List';
   select('#searchBar').placeholder = 'Search Todo...';
   select('#searchBar').value = '';
   select('#searchBar').oninput = filterTodo;
