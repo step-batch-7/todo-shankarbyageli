@@ -24,21 +24,20 @@
     <div class='main'>
       <div id='mainTitle'>
         <span id='goBack'>
-          < Back </span> <p id='text'> Your TODO List </p>
-            <div id='searchContainer'> <input type="text" id='searchBar' oninput="filterTodo()"
-                placeholder="Search Todo...">
-            </div>
+          < Back </span> <div id='text'> Your TODO List </div>
+      <div id='searchContainer'> <input type="text" id='searchBar' oninput="filterTodo()" placeholder="Search Todo...">
       </div>
-      <div id='todo'>
-        <ul class='todoList'>
-
-        </ul>
-      </div>
-      <form id="newTodo">
-        <input type="text" id='input' name='title' placeholder="Add new TODO here" required>
-        <button id='addButton' onclick="addNewTodo()"> Add </button>
-      </form>
     </div>
+    <div id='todo'>
+      <ul class='todoList'>
+
+      </ul>
+    </div>
+    <form id="newTodo">
+      <input type="text" id='input' name='title' placeholder="Add new TODO here" required>
+      <button id='addButton' onclick="addNewTodo()"> Add </button>
+    </form>
+  </div>
   </div>
 </body>
 
