@@ -13,6 +13,15 @@ const createRequest = function (method, url, body) {
   return { method, url, body };
 };
 
+const getTasks = function () {
+  const todoId = event.target.parentElement.id.split('-').pop();
+  const request = createRequest('GET', `/todo?todoId=${todoId}`, {});
+  xmlRequest(request, function () {
+    const todo = JSON.parse(this.responseText);
+    renderTodoTasks(todo);
+  });
+};
+
 const editTodo = function (todoId, title) {
   const request = createRequest('PUT', '/editTodo', { todoId, title });
   xmlRequest(request, function () {
@@ -33,7 +42,6 @@ const deleteTodo = function () {
   xmlRequest(request, function () {
     select(`#todo-${id}`).remove();
     renderEmptyList();
-    todoList.deleteTodo(id);
   });
 };
 
@@ -43,7 +51,6 @@ const deleteTask = function () {
   xmlRequest(request, function () {
     select(`#item-${todoId}-${taskId}`).remove();
     renderEmptyList();
-    todoList.deleteTask(todoId, taskId);
   });
 };
 
@@ -80,7 +87,8 @@ const addNewItem = function () {
   const todoId = getItemId(event.target);
   const request = createRequest('POST', '/newItem', { id: todoId, title });
   xmlRequest(request, function () {
-    renderNewItem(this.responseText, todoId);
+    const todo = JSON.parse(this.responseText);
+    renderTodoTasks(todo);
   });
 };
 
@@ -88,15 +96,14 @@ const changeTaskStatus = function () {
   const [, todoId, taskId] = event.target.parentElement.id.split('-');
   const request = createRequest('PUT', '/taskStatus', { todoId, taskId });
   xmlRequest(request, function () {
-    todoList.changeStatus(todoId, taskId);
+
   });
 };
 
 const getAllTodos = function () {
   const request = createRequest('GET', '/list', {});
   xmlRequest(request, function () {
-    const serverList = JSON.parse(this.responseText);
-    todoList.addList(serverList);
-    renderTodos();
+    const todoList = JSON.parse(this.responseText);
+    renderTodos(todoList);
   });
 };

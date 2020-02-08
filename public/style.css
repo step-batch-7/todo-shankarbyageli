@@ -101,10 +101,6 @@ div.matches::after {
   font-weight: 400;
 }
 
-/* .highlight {
-  font-weight: 600 !important;
-} */
-
 .matches:hover {
   color: blue;
   cursor: pointer;
@@ -234,4 +230,12 @@ div.matches::after {
 
 #selectedTasks {
   position: absolute;
+  top: 0px;
+  left: 0px;
+  display: none;
+  width: 20vw;
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.6vw;
+  box-shadow: 2px 2px 4px black;
 }
