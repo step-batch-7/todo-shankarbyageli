@@ -10,22 +10,25 @@
 <link rel="stylesheet" href="style.css">
 <script src="scripts/TodoList.js"></script>
 <script src="scripts/main.js"></script>
+<script src="scripts/createElements.js"></script>
 <script src="scripts/requests.js"></script>
 <script src="scripts/render.js"></script>
 
 <body onload="main()">
   <div id='app'>
     <div class=header>
-      <div id='icon'>
-        <img src="todoIcon.png" alt="Icon" id='icon'>
-      </div>
-      <span id='title'> TODO </span>
+      <span id='goBack'>
+        < Back </span> <div id='title'>
+          <img src="todoIcon.png" alt="Icon" id='icon'>
+          <span id='header'> TODO </span>
     </div>
-    <div class='main'>
-      <div id='mainTitle'>
-        <span id='goBack'>
-          < Back </span> <div id='text'> Your TODO List </div>
-      <div id='searchContainer'> <input type="text" id='searchBar' oninput="filterTodo()" placeholder="Search Todo...">
+  </div>
+  <div class='main'>
+    <div id='mainTitle'>
+      <div id='text'> <input type="search" id='todoSearch' class='searchBar' oninput="filterTodo()"
+          placeholder="Search Todo..."> <span id='taskName'> </span> </div>
+      <div id='searchContainer'> <input type="search" id='taskSearch' class="searchBar" onfocus="clearOtherSearch()"
+          oninput="filterTasksInTodo()" placeholder="Search Task...">
       </div>
     </div>
     <div id='todo'>
@@ -39,6 +42,7 @@
     </form>
   </div>
   </div>
+
 </body>
 
 </html>

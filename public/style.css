@@ -22,9 +22,10 @@ body {
 }
 
 #goBack {
-  display: none;
-  flex: 7%;
+  visibility: hidden;
+  flex: 10%;
   font-size: 1.5vw;
+  margin: 0 0 0 1vw;
   color: blue;
   align-self: center;
 }
@@ -35,16 +36,17 @@ body {
 }
 
 #title {
+  flex: 90%;
   font-size: 2.5vw;
   font-weight: bold;
+  padding-left: 34%;
   color: #666;
-  align-self: center;
   margin: 0 0 0 1vw;
 }
 
 #icon {
-  width: 3vw;
-  height: 3vw;
+  width: 2vw;
+  height: 2vw;
   align-self: center;
 }
 
@@ -82,10 +84,30 @@ body {
   align-self: center;
 }
 
-#searchBar {
+.searchBar {
   font-size: 1.5vw;
   border: none;
   outline: none;
+}
+
+#taskName {
+  display: none;
+}
+
+div.matches::after {
+  content: attr(data-match);
+  font-size: 1vw;
+  margin-left: 2vw;
+  font-weight: 400;
+}
+
+/* .highlight {
+  font-weight: 600 !important;
+} */
+
+.matches:hover {
+  color: blue;
+  cursor: pointer;
 }
 
 #todo {
@@ -160,16 +182,7 @@ body {
 }
 
 .view {
-  flex: 7%;
-  font-weight: 400;
-  color: #666;
-  cursor: pointer;
-  margin: 0 2px;
-  align-self: center;
-}
-
-.edit {
-  flex: 4%;
+  flex: 10%;
   font-weight: 400;
   color: #666;
   cursor: pointer;
@@ -178,7 +191,7 @@ body {
 }
 
 .delete {
-  flex: 4%;
+  flex: 5%;
   font-weight: 400;
   color: #666;
   cursor: pointer;
@@ -205,7 +218,7 @@ body {
 }
 
 .itemTitleText {
-  flex: 76%;
+  flex: 85%;
   font-size: 1.4vw;
   margin: 0 5% 0 1.5%;
   font-weight: 200;
@@ -217,4 +230,8 @@ body {
 #lost {
   margin: 18vw 0;
   text-align: center;
+}
+
+#selectedTasks {
+  position: absolute;
 }

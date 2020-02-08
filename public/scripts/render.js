@@ -1,47 +1,28 @@
-const createDivElement = function (innerText, className) {
-  const div = document.createElement('div');
-  div.innerText = innerText;
-  div.className = className;
-  return div;
-};
-
-const createCheckBox = function () {
-  const status = document.createElement('input');
-  status.type = 'checkBox';
-  status.className = 'status';
-  return status;
-};
-
-const createDeleteDiv = function () {
-  const remove = document.createElement('div');
-  remove.className = 'delete';
-  remove.innerText = '✗';
-  remove.onclick = deleteTask;
-  return remove;
-};
-
-const createTitleDiv = function (className, text) {
-  const title = document.createElement('div');
-  title.className = className;
-  title.innerText = text;
-  title.title = text;
-  return title;
-};
-
 const doneTaskEditing = function () {
-  const text = event.target.previousSibling;
+  const text = event.target;
   text.contentEditable = false;
-  event.target.innerText = '✎';
   const [, todoId, taskId] = event.target.parentElement.id.split('-');
   editTask(todoId, taskId, text.innerText);
 };
 
-const makeTaskEditable = function () {
-  const titleNode = event.target.previousSibling;
+const makeTitleEditable = function (done) {
+  const titleNode = event.target;
   titleNode.contentEditable = true;
   titleNode.focus();
-  event.target.innerText = '✔';
-  event.target.onclick = doneTaskEditing;
+};
+
+const highlightSelectedTasks = function (todoId, tasks) {
+  const allTasks = todoList.getTodoItems(todoId);
+  renderTasks(todoId, allTasks);
+  tasks.forEach(task => {
+    select(`#item-${todoId}-${task.id}`).children[1].style['font-weight'] = '500';
+  });
+};
+
+const showMatchingTasks = function (tasks) {
+  const todoId = event.target.parentElement.id.split('-').pop();
+  taskTemplate(todoId);
+  highlightSelectedTasks(todoId, tasks);
 };
 
 const getItemHTML = function (todoId, item) {
@@ -53,10 +34,9 @@ const getItemHTML = function (todoId, item) {
   status.onclick = changeTaskStatus;
   newItem.appendChild(status);
   const title = createTitleDiv('itemTitleText', item.title);
+  title.onclick = makeTitleEditable;
+  title.onblur = doneTaskEditing;
   newItem.appendChild(title);
-  const edit = createDivElement('✎', 'edit');
-  edit.onclick = makeTaskEditable;
-  newItem.appendChild(edit);
   const remove = createDeleteDiv();
   newItem.appendChild(remove);
   return newItem;
@@ -69,18 +49,9 @@ const getTodoDetails = function (details) {
 };
 
 const doneTodoEditing = function () {
-  const text = event.target.previousSibling;
+  const text = event.target;
   text.contentEditable = false;
-  event.target.innerText = '✎';
   editTodo(event.target.parentElement.id.split('-').pop(), text.innerText);
-};
-
-const makeTodoEditable = function () {
-  const titleNode = event.target.previousSibling;
-  titleNode.contentEditable = true;
-  titleNode.focus();
-  event.target.innerText = '✔';
-  event.target.onclick = doneTodoEditing;
 };
 
 const getTodoHTML = function (details) {
@@ -89,11 +60,10 @@ const getTodoHTML = function (details) {
   todo.className = 'todo';
   const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
   title.title = getTodoDetails(details);
+  title.onclick = makeTitleEditable;
+  title.onblur = doneTodoEditing;
   todo.appendChild(title);
-  const edit = createDivElement('✎', 'edit');
-  edit.onclick = () => makeTodoEditable(editTodo);
-  todo.appendChild(edit);
-  const view = createDivElement('View', 'view');
+  const view = createDivElement('Tasks', 'view');
   view.onclick = renderTodoTasks;
   todo.appendChild(view);
   const remove = createDivElement('✗', 'delete');
@@ -126,6 +96,10 @@ const removeAllChildren = function (className) {
   }
 };
 
+const clearOtherSearch = function () {
+  select('#todoSearch').value = '';
+};
+
 const isSearchedElement = function (title, searchText) {
   let keywords = searchText.split(' ');
   keywords = keywords.filter(keyword => keyword);
@@ -133,7 +107,7 @@ const isSearchedElement = function (title, searchText) {
 };
 
 const filterTodo = function () {
-  const searchText = select('#searchBar').value;
+  const searchText = select('#todoSearch').value;
   const elements = todoList.list;
   elements.forEach((element) => {
     if (isSearchedElement(element.title, searchText)) {
@@ -145,7 +119,7 @@ const filterTodo = function () {
 };
 
 const filterTasks = function () {
-  const searchText = select('#searchBar').value;
+  const searchText = select('#taskSearch').value;
   const todoId = select('.todoList').id.split('-').pop();
   const elements = todoList.getTodoItems(todoId);
   elements.forEach((element) => {
@@ -157,15 +131,65 @@ const filterTasks = function () {
   });
 };
 
+const getAllMatchingTasks = function (searchText) {
+  const todo = todoList.list;
+  const elements = todo.reduce((elements, t) => {
+    const tasks = todoList.getTodoItems(t.id);
+    elements[t.id] = tasks;
+    return elements;
+  }, {});
+  const matchingTasks = [];
+  for (let element in elements) {
+    const matching = elements[element].filter(task => {
+      return isSearchedElement(task.title, searchText);
+    });
+    matchingTasks.push([element, matching]);
+  }
+  return matchingTasks;
+};
+
+const displayMatchCount = function (element, tasks) {
+  element.setAttribute('data-match', `${tasks.length} matching tasks`);
+  element.classList.add('matches');
+  let taskCount = 1;
+  element.title = 'Matching Tasks:\n';
+  tasks.forEach(task => {
+    element.title += `${taskCount}. ${task.title}\n`;
+    taskCount++;
+  });
+  element.onclick = showMatchingTasks.bind(null, tasks);
+};
+
+const filterTasksInTodo = function () {
+  const searchText = select('#taskSearch').value;
+  const matchingTasks = getAllMatchingTasks(searchText);
+  matchingTasks.forEach(match => {
+    select(`#todo-${match[0]}`).style.display = '';
+    if (searchText.trim() === '') {
+      select(`#todo-${match[0]}`).firstChild.classList.remove('matches');
+      select(`#todo-${match[0]}`).firstChild.onclick = makeTitleEditable;
+      todoTemplate();
+      return;
+    }
+    select(`#todo-${match[0]}`).firstChild.onclick = null;
+    if (match[1].length) {
+      displayMatchCount(select(`#todo-${match[0]}`).firstChild, match[1]);
+      return;
+    }
+    select(`#todo-${match[0]}`).style.display = 'none';
+  });
+};
+
 const todoTemplate = function () {
-  select('#input').placeholder = 'Add New TODO here';
-  select('#text').innerText = 'Your TODO List';
-  select('#text').title = 'Your TODO List';
-  select('#searchBar').placeholder = 'Search Todo...';
-  select('#searchBar').value = '';
-  select('#searchBar').oninput = filterTodo;
+  select('#input').placeholder = 'Add New TASK here';
+  select('#taskName').style.display = 'none';
+  select('#todoSearch').style.display = '';
+  select('#todoSearch').value = '';
+  select('#taskSearch').value = '';
+  select('#todoSearch').oninput = filterTodo;
+  select('#taskSearch').oninput = filterTasksInTodo;
   select('#addButton').onclick = addNewTodo;
-  select('#goBack').style.display = 'none';
+  select('#goBack').style.visibility = 'hidden';
   removeAllChildren('todoList');
   select('.todoList').id = '';
   renderTodos();
@@ -173,27 +197,30 @@ const todoTemplate = function () {
 
 const taskTemplate = function (todoId) {
   select('#input').placeholder = 'Add New TASK here';
-  select('#text').innerText = todoList.getTodo(todoId).title;
-  select('#searchBar').placeholder = 'Search Task...';
-  select('#searchBar').value = '';
-  select('#searchBar').oninput = filterTasks;
-  select('#text').title = select('#text').innerText;
+  select('#todoSearch').style.display = 'none';
+  select('#taskName').style.display = 'inline';
+  select('#taskName').innerText = `Title: ${todoList.getTodo(todoId).title}`;
+  select('#taskSearch').oninput = filterTasks;
   select('#addButton').onclick = addNewItem;
-  select('#goBack').style.display = 'inline';
+  select('#goBack').style.visibility = 'visible';
   select('#goBack').onclick = todoTemplate;
   removeAllChildren('todoList');
   select('.todoList').id = `todoItems-${todoId}`;
+};
+
+const renderTasks = function (id, tasks) {
+  for (const task of tasks) {
+    const taskHTML = getItemHTML(id, task);
+    select('.todoList').appendChild(taskHTML);
+  }
+  renderEmptyList();
 };
 
 const renderTodoTasks = function () {
   const id = event.target.parentElement.id.split('-').pop();
   taskTemplate(id);
   const tasks = todoList.getTodoItems(id);
-  for (const task of tasks) {
-    const taskHTML = getItemHTML(id, task);
-    select('.todoList').appendChild(taskHTML);
-  }
-  renderEmptyList();
+  renderTasks(id, tasks);
 };
 
 const renderEmptyList = function () {
