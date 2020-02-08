@@ -25,23 +25,6 @@ const showMatchingTasks = function (tasks) {
   highlightSelectedTasks(todoId, tasks);
 };
 
-const getItemHTML = function (todoId, item) {
-  const newItem = document.createElement('li');
-  newItem.id = `item-${todoId}-${item.id}`;
-  newItem.className = 'item';
-  const status = createCheckBox();
-  status.checked = item.status;
-  status.onclick = changeTaskStatus;
-  newItem.appendChild(status);
-  const title = createTitleDiv('itemTitleText', item.title);
-  title.onclick = makeTitleEditable;
-  title.onblur = doneTaskEditing;
-  newItem.appendChild(title);
-  const remove = createDeleteDiv();
-  newItem.appendChild(remove);
-  return newItem;
-};
-
 const getTodoDetails = function (details) {
   const tasks = details.tasks;
   const remaining = tasks.filter((task) => !task.status).length;
@@ -52,24 +35,6 @@ const doneTodoEditing = function () {
   const text = event.target;
   text.contentEditable = false;
   editTodo(event.target.parentElement.id.split('-').pop(), text.innerText);
-};
-
-const getTodoHTML = function (details) {
-  const todo = document.createElement('li');
-  todo.id = `todo-${details.id}`;
-  todo.className = 'todo';
-  const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
-  title.title = getTodoDetails(details);
-  title.onclick = makeTitleEditable;
-  title.onblur = doneTodoEditing;
-  todo.appendChild(title);
-  const view = createDivElement('Tasks', 'view');
-  view.onclick = getTasks;
-  todo.appendChild(view);
-  const remove = createDivElement('✗', 'delete');
-  remove.onclick = deleteTodo;
-  todo.appendChild(remove);
-  return todo;
 };
 
 const renderNewTodo = function () {
@@ -94,58 +59,6 @@ const removeAllChildren = function (className) {
   }
 };
 
-const clearOtherSearch = function () {
-  select('#todoSearch').value = '';
-};
-
-const isSearchedElement = function (title, searchText) {
-  let keywords = searchText.split(' ');
-  keywords = keywords.filter(keyword => keyword);
-  return keywords.every(keyword => title.includes(keyword));
-};
-
-const filterTodo = function () {
-  const searchText = select('#todoSearch').value;
-  const elements = todoList.list;
-  elements.forEach((element) => {
-    if (isSearchedElement(element.title, searchText)) {
-      select(`#todo-${element.id}`).style.display = '';
-    } else {
-      select(`#todo-${element.id}`).style.display = 'none';
-    }
-  });
-};
-
-const filterTasks = function () {
-  const searchText = select('#taskSearch').value;
-  const todoId = select('.todoList').id.split('-').pop();
-  const elements = todoList.getTodoItems(todoId);
-  elements.forEach((element) => {
-    if (isSearchedElement(element.title, searchText)) {
-      select(`#item-${todoId}-${element.id}`).style.display = '';
-    } else {
-      select(`#item-${todoId}-${element.id}`).style.display = 'none';
-    }
-  });
-};
-
-const getAllMatchingTasks = function (searchText) {
-  const todo = todoList.list;
-  const elements = todo.reduce((elements, t) => {
-    const tasks = todoList.getTodoItems(t.id);
-    elements[t.id] = tasks;
-    return elements;
-  }, {});
-  const matchingTasks = [];
-  for (let element in elements) {
-    const matching = elements[element].filter(task => {
-      return isSearchedElement(task.title, searchText);
-    });
-    matchingTasks.push([element, matching]);
-  }
-  return matchingTasks;
-};
-
 const showTasksList = function (element, tasks) {
   element.innerText = '';
   tasks.forEach(task => {
@@ -153,7 +66,7 @@ const showTasksList = function (element, tasks) {
   });
   element.style.display = 'block';
   element.style.top = `${event.clientY}px`;
-  element.style.left = `600px`;
+  element.style.left = '700px';
 };
 
 const hideTasksList = function () {
@@ -169,34 +82,16 @@ const showSelectedTaskList = function (element, tasks) {
   element.onclick = showMatchingTasks.bind(null, tasks);
 };
 
-const filterTasksInTodo = function () {
-  const searchText = select('#taskSearch').value;
-  const matchingTasks = getAllMatchingTasks(searchText);
-  matchingTasks.forEach(match => {
-    select(`#todo-${match[0]}`).style.display = '';
-    if (searchText.trim() === '') {
-      select(`#todo-${match[0]}`).firstChild.classList.remove('matches');
-      select(`#todo-${match[0]}`).firstChild.onclick = makeTitleEditable;
-      todoTemplate();
-      return;
-    }
-    select(`#todo-${match[0]}`).firstChild.onclick = null;
-    if (match[1].length) {
-      showSelectedTaskList(select(`#todo-${match[0]}`).firstChild, match[1]);
-      return;
-    }
-    select(`#todo-${match[0]}`).style.display = 'none';
-  });
-};
-
 const todoTemplate = function () {
   select('#input').placeholder = 'Add New TASK here';
   select('#taskName').style.display = 'none';
   select('#todoSearch').style.display = '';
   select('#todoSearch').value = '';
   select('#taskSearch').value = '';
-  select('#todoSearch').oninput = filterTodo;
-  select('#taskSearch').oninput = filterTasksInTodo;
+  select('#todoSearch').onfocus = () =>
+    initiateTaskSearch(filterTodo);
+  select('#taskSearch').onfocus = () =>
+    initiateTaskSearch(filterTasksInTodo);
   select('#addButton').onclick = addNewTodo;
   select('#goBack').style.visibility = 'hidden';
   removeAllChildren('todoList');
@@ -213,6 +108,7 @@ const taskTemplate = function (todo) {
   select('#todoSearch').style.display = 'none';
   select('#taskName').style.display = 'inline';
   select('#taskName').innerText = `Title: ${todo.title}`;
+  select('#taskSearch').onfocus = null;
   select('#taskSearch').oninput = filterTasks;
   select('#addButton').onclick = addNewItem;
   select('#goBack').style.visibility = 'visible';
@@ -224,6 +120,9 @@ const taskTemplate = function (todo) {
 const renderTasks = function (id, tasks) {
   for (const task of tasks) {
     const taskHTML = getItemHTML(id, task);
+    if (task.status) {
+      taskHTML.style['text-decoration'] = 'line-through';
+    }
     select('.todoList').appendChild(taskHTML);
   }
   renderEmptyList();

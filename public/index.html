@@ -8,8 +8,8 @@
 </head>
 <link rel="icon" href="todoIcon.png" type="image/x-icon">
 <link rel="stylesheet" href="style.css">
-<script src="scripts/TodoList.js"></script>
 <script src="scripts/main.js"></script>
+<script src="scripts/search.js"></script>
 <script src="scripts/createElements.js"></script>
 <script src="scripts/requests.js"></script>
 <script src="scripts/render.js"></script>
@@ -25,10 +25,10 @@
   </div>
   <div class='main'>
     <div id='mainTitle'>
-      <div id='text'> <input type="search" id='todoSearch' class='searchBar' oninput="filterTodo()"
+      <div id='text'> <input type="search" id='todoSearch' class='searchBar' onfocus="initiateTaskSearch(filterTodo)"
           placeholder="Search Todo..."> <span id='taskName'> </span> </div>
-      <div id='searchContainer'> <input type="search" id='taskSearch' class="searchBar" onfocus="clearOtherSearch()"
-          oninput="filterTasksInTodo()" placeholder="Search Task...">
+      <div id='searchContainer'> <input type="search" id='taskSearch' class="searchBar"
+          onfocus="initiateTaskSearch(filterTasksInTodo)" placeholder="Search Task...">
       </div>
     </div>
     <div id='todo'>

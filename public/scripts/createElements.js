@@ -27,3 +27,38 @@ const createTitleDiv = function (className, text) {
   title.title = text;
   return title;
 };
+
+const getTodoHTML = function (details) {
+  const todo = document.createElement('li');
+  todo.id = `todo-${details.id}`;
+  todo.className = 'todo';
+  const title = createDivElement(details.title, 'todoTitle', 'todoTitleText');
+  title.title = getTodoDetails(details);
+  title.onclick = makeTitleEditable;
+  title.onblur = doneTodoEditing;
+  todo.appendChild(title);
+  const view = createDivElement('Tasks', 'view');
+  view.onclick = getTasks;
+  todo.appendChild(view);
+  const remove = createDivElement('✗', 'delete');
+  remove.onclick = deleteTodo;
+  todo.appendChild(remove);
+  return todo;
+};
+
+const getItemHTML = function (todoId, item) {
+  const newItem = document.createElement('li');
+  newItem.id = `item-${todoId}-${item.id}`;
+  newItem.className = 'item';
+  const status = createCheckBox();
+  status.checked = item.status;
+  status.onclick = changeTaskStatus;
+  newItem.appendChild(status);
+  const title = createTitleDiv('itemTitleText', item.title);
+  title.onclick = makeTitleEditable;
+  title.onblur = doneTaskEditing;
+  newItem.appendChild(title);
+  const remove = createDeleteDiv();
+  newItem.appendChild(remove);
+  return newItem;
+};

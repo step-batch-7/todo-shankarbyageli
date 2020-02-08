@@ -25,14 +25,16 @@ const getTasks = function () {
 const editTodo = function (todoId, title) {
   const request = createRequest('PUT', '/editTodo', { todoId, title });
   xmlRequest(request, function () {
-    todoList.editTodo(todoId, title);
+    const todoList = JSON.parse(this.responseText);
+    renderTodos(todoList);
   });
 };
 
 const editTask = function (todoId, taskId, title) {
   const request = createRequest('PUT', '/editTask', { todoId, taskId, title });
   xmlRequest(request, function () {
-    todoList.editTask(todoId, taskId, title);
+    const todo = JSON.parse(this.responseText);
+    renderTodoTasks(todo);
   });
 };
 
@@ -42,6 +44,8 @@ const deleteTodo = function () {
   xmlRequest(request, function () {
     select(`#todo-${id}`).remove();
     renderEmptyList();
+    const todoList = JSON.parse(this.responseText);
+    renderTodos(todoList);
   });
 };
 
@@ -51,6 +55,8 @@ const deleteTask = function () {
   xmlRequest(request, function () {
     select(`#item-${todoId}-${taskId}`).remove();
     renderEmptyList();
+    const todo = JSON.parse(this.responseText);
+    renderTodoTasks(todo);
   });
 };
 
@@ -96,7 +102,8 @@ const changeTaskStatus = function () {
   const [, todoId, taskId] = event.target.parentElement.id.split('-');
   const request = createRequest('PUT', '/taskStatus', { todoId, taskId });
   xmlRequest(request, function () {
-
+    const todo = JSON.parse(this.responseText);
+    renderTodoTasks(todo);
   });
 };
 

@@ -4,7 +4,7 @@ const parseUrl = function (urlString) {
     query = query.split('&');
     const parsed = {};
     query.reduce((parsed, query) => {
-      let [key, value] = query.split('=');
+      const [key, value] = query.split('=');
       parsed[key] = value;
       return parsed;
     }, parsed);
