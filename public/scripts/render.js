@@ -29,21 +29,6 @@ const doneTodoEditing = function () {
   editTodo(event.target.parentElement.id.split('-').pop(), text.innerText);
 };
 
-const renderNewTodo = function () {
-  renderEmptyList();
-  const details = JSON.parse(this.responseText);
-  renderTodos(details);
-};
-
-const renderNewItem = function (responseText, todoId) {
-  renderEmptyList();
-  const details = JSON.parse(responseText);
-  todoList.addTask(todoId, details);
-  const item = getItemHTML(todoId, details);
-  select('.todoList').appendChild(item);
-  select('#todo').scrollTop = select('#todo').scrollHeight;
-};
-
 const removeAllChildren = function (className) {
   const element = select(`.${className}`);
   while (element.children.length) {
