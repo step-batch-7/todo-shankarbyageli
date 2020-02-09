@@ -4,13 +4,13 @@ const isSearchedElement = function (title, searchText) {
   return keywords.every(keyword => title.includes(keyword));
 };
 
-const filterTodo = function (todo) {
+const filterTodo = function (todoList) {
   const searchText = select('#todoSearch').value;
-  todo.forEach((element) => {
-    if (isSearchedElement(element.title, searchText)) {
-      select(`#todo-${element.id}`).style.display = '';
+  todoList.forEach((todo) => {
+    if (isSearchedElement(todo.title, searchText)) {
+      select(`#todo-${todo.id}`).style.display = '';
     } else {
-      select(`#todo-${element.id}`).style.display = 'none';
+      select(`#todo-${todo.id}`).style.display = 'none';
     }
   });
 };
@@ -21,28 +21,30 @@ const filterTasks = function () {
   xmlRequest(request, function (todo) {
     const { tasks } = todo;
     const searchText = select('#taskSearch').value;
-    tasks.forEach((element) => {
-      if (isSearchedElement(element.title, searchText)) {
-        select(`#item-${todoId}-${element.id}`).style.display = '';
+    tasks.forEach((task) => {
+      if (isSearchedElement(task.title, searchText)) {
+        select(`#item-${todoId}-${task.id}`).style.display = '';
       } else {
-        select(`#item-${todoId}-${element.id}`).style.display = 'none';
+        select(`#item-${todoId}-${task.id}`).style.display = 'none';
       }
     });
   });
 };
 
+const getTasksOfTodo = function (result, todo) {
+  const tasks = todo.tasks;
+  result[todo.id] = tasks;
+  return result;
+};
+
 const getAllMatchingTasks = function (searchText, todo) {
-  const elements = todo.reduce((elements, t) => {
-    const tasks = t.tasks;
-    elements[t.id] = tasks;
-    return elements;
-  }, {});
+  const todoTaskList = todo.reduce(getTasksOfTodo, {});
   const matchingTasks = [];
-  for (const element in elements) {
-    const matching = elements[element].filter(task => {
+  for (const tasks in todoTaskList) {
+    const matching = todoTaskList[tasks].filter(task => {
       return isSearchedElement(task.title, searchText);
     });
-    matchingTasks.push([element, matching]);
+    matchingTasks.push([tasks, matching]);
   }
   return matchingTasks;
 };
@@ -69,7 +71,7 @@ const renderSearchResult = function (searchText, task) {
 
 const filterTasksInTodo = function (todoList) {
   const searchText = select('#taskSearch').value;
-  if (searchText.trim() == '') {
+  if (searchText.trim() === '') {
     return renderTodos(todoList);
   }
   const matchingTasks = getAllMatchingTasks(searchText, todoList);
