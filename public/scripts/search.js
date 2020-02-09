@@ -18,8 +18,8 @@ const filterTodo = function (todo) {
 const filterTasks = function () {
   const todoId = select('.todoList').id.split('-').pop();
   const request = createRequest('GET', `/todo?todoId=${todoId}`, {});
-  xmlRequest(request, function () {
-    const { tasks } = JSON.parse(this.responseText);
+  xmlRequest(request, function (todo) {
+    const { tasks } = todo;
     const searchText = select('#taskSearch').value;
     tasks.forEach((element) => {
       if (isSearchedElement(element.title, searchText)) {
@@ -53,25 +53,27 @@ const resetTasks = function () {
   todoTemplate();
 };
 
+const renderSearchResult = function (searchText, task) {
+  select(`#todo-${task[0]}`).style.display = '';
+  if (searchText.trim() === '') {
+    resetTasks();
+    return;
+  }
+  select(`#todo-${task[0]}`).firstChild.onclick = null;
+  if (task[1].length) {
+    showSelectedTaskList(select(`#todo-${task[0]}`).firstChild, task[1]);
+    return;
+  }
+  select(`#todo-${task[0]}`).style.display = 'none';
+};
+
 const filterTasksInTodo = function (todoList) {
   const searchText = select('#taskSearch').value;
   if (searchText.trim() == '') {
     return renderTodos(todoList);
   }
   const matchingTasks = getAllMatchingTasks(searchText, todoList);
-  matchingTasks.forEach(match => {
-    select(`#todo-${match[0]}`).style.display = '';
-    if (searchText.trim() === '') {
-      resetTasks();
-      return;
-    }
-    select(`#todo-${match[0]}`).firstChild.onclick = null;
-    if (match[1].length) {
-      showSelectedTaskList(select(`#todo-${match[0]}`).firstChild, match[1]);
-      return;
-    }
-    select(`#todo-${match[0]}`).style.display = 'none';
-  });
+  matchingTasks.forEach((task) => renderSearchResult(searchText, task));
 };
 
 const initiateTaskSearch = function (filter) {
@@ -82,8 +84,7 @@ const initiateTaskSearch = function (filter) {
   }
   const request = createRequest('GET', '/list', {});
   const searchBar = event.target;
-  xmlRequest(request, function () {
-    const allTodoData = JSON.parse(this.responseText);
+  xmlRequest(request, function (allTodoData) {
     searchBar.oninput = filter.bind(null, allTodoData);
   });
 };

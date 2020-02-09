@@ -59,8 +59,7 @@ const showSelectedTaskList = function (element, tasks) {
   element.onclick = function () {
     const todoId = element.parentElement.id.split('-').pop();
     const request = createRequest('GET', `/todo?todoId=${todoId}`, {});
-    xmlRequest(request, function () {
-      const todo = JSON.parse(this.responseText);
+    xmlRequest(request, function (todo) {
       renderTodoTasks(todo);
       highlightSelectedTasks(todoId, tasks);
     });
