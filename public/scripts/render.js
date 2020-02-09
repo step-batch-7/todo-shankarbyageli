@@ -12,17 +12,9 @@ const makeTitleEditable = function () {
 };
 
 const highlightSelectedTasks = function (todoId, tasks) {
-  const allTasks = todoList.getTodoItems(todoId);
-  renderTasks(todoId, allTasks);
   tasks.forEach(task => {
-    select(`#item-${todoId}-${task.id}`).children[1].style['font-weight'] = '500';
+    select(`#item-${todoId}-${task.id}`).children[1].style['font-weight'] = '600';
   });
-};
-
-const showMatchingTasks = function (tasks) {
-  const todoId = event.target.parentElement.id.split('-').pop();
-  taskTemplate(todoId);
-  highlightSelectedTasks(todoId, tasks);
 };
 
 const getTodoDetails = function (details) {
@@ -79,7 +71,15 @@ const showSelectedTaskList = function (element, tasks) {
   const taskList = select('#selectedTasks');
   element.onmouseover = showTasksList.bind(null, taskList, tasks);
   element.onmouseout = hideTasksList;
-  element.onclick = showMatchingTasks.bind(null, tasks);
+  element.onclick = function () {
+    const todoId = element.parentElement.id.split('-').pop();
+    const request = createRequest('GET', `/todo?todoId=${todoId}`, {});
+    xmlRequest(request, function () {
+      const todo = JSON.parse(this.responseText);
+      renderTodoTasks(todo);
+      highlightSelectedTasks(todoId, tasks);
+    });
+  }
 };
 
 const todoTemplate = function () {
@@ -96,6 +96,7 @@ const todoTemplate = function () {
   select('#goBack').style.visibility = 'hidden';
   removeAllChildren('todoList');
   select('.todoList').id = '';
+  select('#selectedTasks').style.display = 'none';
 };
 
 const goBack = function () {
@@ -115,13 +116,14 @@ const taskTemplate = function (todo) {
   select('#goBack').onclick = goBack;
   removeAllChildren('todoList');
   select('.todoList').id = `todoItems-${todo.id}`;
+  select('#selectedTasks').style.display = 'none';
 };
 
 const renderTasks = function (id, tasks) {
   for (const task of tasks) {
     const taskHTML = getItemHTML(id, task);
     if (task.status) {
-      taskHTML.style['text-decoration'] = 'line-through';
+      taskHTML.children[1].style['text-decoration'] = 'line-through';
     }
     select('.todoList').appendChild(taskHTML);
   }

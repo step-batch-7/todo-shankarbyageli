@@ -5,16 +5,8 @@ describe('TodoList', function () {
   describe('getTodoList', function () {
     it('should give the list of all todos', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2 }, { id: 3 }]);
-      const list = todoList.getTodoList();
+      const list = todoList.list;
       assert.deepStrictEqual(list, [{ id: 1 }, { id: 2 }, { id: 3 }]);
-    });
-  });
-
-  describe('toString', function () {
-    it('should give the string representation of the todo', function () {
-      const todoList = new TodoList([{ id: 1 }, { id: 2 }, { id: 3 }]);
-      const actual = todoList.toString();
-      assert.strictEqual(actual, JSON.stringify([{ id: 1 }, { id: 2 }, { id: 3 }]));
     });
   });
 
@@ -60,7 +52,7 @@ describe('TodoList', function () {
     it('should delete the todo of the given id', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2 }]);
       todoList.deleteTodo(1);
-      assert.deepStrictEqual(todoList.getTodoList(), [{ id: 2 }]);
+      assert.deepStrictEqual(todoList.list, [{ id: 2 }]);
     });
   });
 
@@ -68,7 +60,7 @@ describe('TodoList', function () {
     it('should delete the give task id of the given todoId', function () {
       const todoList = new TodoList([{ id: 1 }, { id: 2, tasks: [{ id: 1 }, { id: 2 }] }]);
       todoList.deleteTask(2, 1);
-      assert.deepStrictEqual(todoList.getTodoList(), [{ id: 1 }, { id: 2, tasks: [{ id: 2 }] }]);
+      assert.deepStrictEqual(todoList.list, [{ id: 1 }, { id: 2, tasks: [{ id: 2 }] }]);
     });
   });
 
@@ -88,7 +80,7 @@ describe('TodoList', function () {
       const expected = { id: 2, title: 'new todo', status: false };
       assert.deepStrictEqual(actual, expected);
       const list = [{ id: 1, tasks: [{ id: 2, title: 'new todo', status: false }] }];
-      assert.deepStrictEqual(todoList.getTodoList(), list);
+      assert.deepStrictEqual(todoList.list, list);
     });
   });
 
@@ -97,7 +89,7 @@ describe('TodoList', function () {
       const todoList = new TodoList([{ id: 1, tasks: [{ id: 2, title: 'new todo', status: false }] }]);
       const actual = todoList.changeStatus(1, 2);
       const list = [{ id: 1, tasks: [{ id: 2, title: 'new todo', status: true }] }];
-      assert.deepStrictEqual(todoList.getTodoList(), list);
+      assert.deepStrictEqual(todoList.list, list);
     });
   });
 
