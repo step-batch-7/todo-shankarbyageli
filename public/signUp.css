@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+  background-image: url(cool-background.png);
+  background-size: cover;
+}
+
+#container {
+  position: relative;
+  top: 5vw;
+  left: 35vw;
+  width: 30%;
+  background-color: #fff;
+}
+
+.submit {
+  width: 50%;
+  height: 3vw;
+  background-color: #4091ee;
+  font-size: 1.5vw;
+  margin: 1vw 0;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+
+.submit:hover {
+  background-color: #4080ff;
+  cursor: pointer;
+}
+
+#signUpForm {
+  padding: 2vw;
+}
+
+#title {
+  font-weight: 500;
+  font-size: 2vw;
+}
+
+.label {
+  font-weight: 100;
+}
+
+.inputBox {
+  width: 90%;
+  height: 1.6vw;
+  margin: 1vw 0 0 0;
+  font-size: 1vw;
+  font-weight: 300;
+  letter-spacing: .08em;
+  padding: .4vw .8vw;
+  outline: none;
+}
+
+.error {
+  font-size: .8vw;
+  color: red;
+}
+
+.direction {
+  color: #999;
+  font-size: 0.8vw;
+}
+
+#forget:hover {
+  color: #4091ee;
+}
+
+#signUp {
+  text-decoration: none;
+  margin-left: 1.3vw;
+  color: #444;
+  font-size: 1.25vw;
+  font-weight: 340;
+  margin-left: 7.5vw;
+  font-size: 1.5vw;
+}

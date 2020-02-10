@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="login.css">
+  <title> Login </title>
+</head>
+
+<script>
+  const displaySignUp = function () {
+    document.querySelector('#loginForm').style.display = 'none';
+    document.querySelector('#loginPage').append(document.querySelector('#signUpForm'));
+  }
+</script>
+
+<body>
+  <div id='container'>
+    <div id='loginPage'>
+      <form action="login" method="POST" id='loginForm'>
+        <h1 id='title'> Login </h1>
+        <label for="username" class='label'> Enter Username: </label> <br>
+        <input type="text" name='username' class='inputBox' required> <br>
+        <label for="password" class='label'> Enter Password: </label> <br>
+        <input type="password" name='passwd' class='inputBox' required>
+        <button type="submit" class='submit'> Login </button>
+        <a href="" id='forget'> Forgot Password? </a>
+        <p> <a href="" id='signUp' onclick="displaySignUp()"> Create Account </a> </p>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

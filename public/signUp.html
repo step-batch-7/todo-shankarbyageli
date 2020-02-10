@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="signUp.css">
+  <script src="scripts/signup.js"></script>
+  <title> Sign Up </title>
+</head>
+
+<body>
+  <div id='container'>
+    <div id='signUpage'>
+      <form id='signUpForm'>
+        <h1 id='title'> Create Account </h1>
+        <label for="username" class='label'> Enter Username: </label> <br>
+        <input type="text" name='username' class='inputBox' pattern='.{3,}' required> <br>
+        <p class='error' id='userNameError'> </p>
+        <label for="email" class='label'> Enter e-mail </label> <br>
+        <input type="email" name="email" class='inputBox' required>
+        <p class="error" id='emailError'> </p>
+        <label for="password" class='label'> Enter Password (8 to 15 characters) </label> <br>
+        <input type="password" name='passwd' class='inputBox' pattern="^[^ ]*$" maxlength="15" minlength=8 required>
+        <p class="direction"> Password must not include space </p>
+        <label for="password" class='label'> Re-type Password: </label> <br>
+        <input type="password" name='re-passwd' class='inputBox' required>
+        <p class="direction"></p>
+        <button onclick="validateInput()" class='submit'> Sign Up </button>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

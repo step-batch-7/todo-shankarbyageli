@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+  background-image: url(cool-background.png);
+  background-size: cover;
+}
+
+#container {
+  position: relative;
+  top: 10vw;
+  left: 35vw;
+  width: 30%;
+  background-color: #fff;
+}
+
+.submit {
+  width: 50%;
+  height: 3vw;
+  background-color: #4091ee;
+  font-size: 1.5vw;
+  margin: 1vw 0;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+
+.submit:hover {
+  background-color: #4080ff;
+  cursor: pointer;
+}
+
+#loginForm {
+  padding: 2vw;
+}
+
+#title {
+  font-weight: 500;
+}
+
+.label {
+  font-weight: 100;
+}
+
+.inputBox {
+  width: 90%;
+  height: 2vw;
+  margin: 1vw 0;
+  font-size: 1.2vw;
+  font-weight: 300;
+  letter-spacing: .08em;
+  padding: .4vw .8vw;
+  outline: none;
+}
+
+#forget {
+  text-decoration: none;
+  margin-left: 1.3vw;
+  color: #666;
+  font-size: 1.25vw;
+  font-weight: 500;
+}
+
+#forget:hover, #signUp:hover {
+  color: #4091ee;
+}
+
+#signUp {
+  text-decoration: none;
+  margin-left: 1.3vw;
+  color: #444;
+  font-size: 1.25vw;
+  font-weight: 340;
+  margin-left: 7.5vw;
+  font-size: 1.5vw;
+}
+
+#signUpForm {
+  display: none;
+}
