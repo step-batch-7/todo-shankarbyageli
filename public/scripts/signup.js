@@ -8,6 +8,12 @@ const getFormBody = function () {
   return body;
 };
 
+const getLoginPage = function () {
+  const url = window.location.href;
+  const host = url.split('/').shift();
+  window.location.href = host + '/login.html';
+};
+
 const handleResponse = function () {
   const res = JSON.parse(this.responseText);
   if (res.userNameError) {
@@ -18,6 +24,7 @@ const handleResponse = function () {
     select('#emailError').innerText = res.emailError;
     return;
   }
+  getLoginPage();
 };
 
 const sendData = function (body) {
